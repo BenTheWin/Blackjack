@@ -132,9 +132,10 @@ function onDeal() {
       const el = makeCardEl(card, faceDown);
       el.classList.add(faceDown ? 'dealing-facedown' : 'dealing');
       container.appendChild(el);
-      if (i === 3) {
-        el.addEventListener('animationend', onDealComplete, { once: true });
-      }
+      el.addEventListener('animationend', () => {
+        el.classList.remove('dealing', 'dealing-facedown');
+        if (i === 3) onDealComplete();
+      }, { once: true });
     }, delay);
   });
 }
