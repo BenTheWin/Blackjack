@@ -15,3 +15,15 @@ git push
 ```
 
 Commit messages should be clear and descriptive — explain *why*, not just *what*. Use the imperative mood ("add", "fix", "update"), keep the subject line under 72 characters, and include context in the body when the reason isn't obvious from the code.
+
+## Current Project: Blackjack Game
+
+A browser-based Blackjack game on the `feature/blackjack-game` branch.
+
+**Files:** `index.html`, `style.css`, `game.js`, `ui.js`, `tests/game.test.js`
+
+**Run tests:** `node tests/game.test.js` (83 tests, no dependencies)
+
+**Run game:** Open `index.html` in a browser (no build step needed).
+
+**Architecture:** `game.js` is pure state machine (no DOM). `ui.js` owns all DOM. State flows: `BETTING → DEALING → PLAYER_TURN → DEALER_TURN → RESULT → BETTING`.
