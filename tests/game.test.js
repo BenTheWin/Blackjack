@@ -17,7 +17,7 @@ function describe(name, fn) {
   try { fn(); } catch (e) { console.error(`  ✗ THREW: ${e.message}`); failed++; }
 }
 
-const { createDeck, shuffleDeck } = require('../game.js');
+const { createDeck, shuffleDeck, handValue, isBlackjack, isBust } = require('../game.js');
 
 describe('createDeck', () => {
   const deck = createDeck();
@@ -42,6 +42,29 @@ describe('shuffleDeck', () => {
   assert(shuffled !== deck, 'returns a new array');
   const sameOrder = shuffled.every((c, i) => c.rank === deck[i].rank && c.suit === deck[i].suit);
   assert(!sameOrder, 'order differs after shuffle');
+});
+
+describe('handValue', () => {
+  assert(handValue([{rank:'7',value:7},{rank:'8',value:8}]) === 15, '7+8 = 15');
+  assert(handValue([{rank:'K',value:10},{rank:'Q',value:10}]) === 20, 'K+Q = 20');
+  assert(handValue([{rank:'A',value:11},{rank:'K',value:10}]) === 21, 'A+K = 21 soft');
+  assert(handValue([{rank:'A',value:11},{rank:'A',value:11}]) === 12, 'A+A = 12 (one drops to 1)');
+  assert(handValue([{rank:'A',value:11},{rank:'9',value:9},{rank:'5',value:5}]) === 15, 'A+9+5 = 15 ace drops');
+  assert(handValue([{rank:'A',value:11},{rank:'A',value:11},{rank:'9',value:9}]) === 21, 'A+A+9 = 21');
+  assert(handValue([{rank:'K',value:10},{rank:'Q',value:10},{rank:'5',value:5}]) === 25, 'K+Q+5 = 25 bust');
+});
+
+describe('isBlackjack', () => {
+  assert(isBlackjack([{rank:'A',value:11},{rank:'K',value:10}]) === true, 'A+K is blackjack');
+  assert(isBlackjack([{rank:'A',value:11},{rank:'10',value:10}]) === true, 'A+10 is blackjack');
+  assert(isBlackjack([{rank:'7',value:7},{rank:'7',value:7},{rank:'7',value:7}]) === false, '7+7+7 not blackjack');
+  assert(isBlackjack([{rank:'K',value:10},{rank:'Q',value:10}]) === false, 'K+Q not blackjack');
+});
+
+describe('isBust', () => {
+  assert(isBust([{rank:'K',value:10},{rank:'Q',value:10},{rank:'5',value:5}]) === true, 'K+Q+5 = 25 is bust');
+  assert(isBust([{rank:'K',value:10},{rank:'Q',value:10}]) === false, 'K+Q = 20 not bust');
+  assert(isBust([{rank:'A',value:11},{rank:'K',value:10},{rank:'5',value:5}]) === false, 'A+K+5 = 16 not bust');
 });
 
 process.on('exit', () => {

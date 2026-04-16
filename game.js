@@ -23,6 +23,28 @@ function shuffleDeck(deck) {
   return d;
 }
 
+function handValue(cards) {
+  let total = 0;
+  let aces = 0;
+  for (const card of cards) {
+    total += card.value;
+    if (card.rank === 'A') aces++;
+  }
+  while (total > 21 && aces > 0) {
+    total -= 10;
+    aces--;
+  }
+  return total;
+}
+
+function isBlackjack(cards) {
+  return cards.length === 2 && handValue(cards) === 21;
+}
+
+function isBust(cards) {
+  return handValue(cards) > 21;
+}
+
 if (typeof module !== 'undefined') {
-  module.exports = { createDeck, shuffleDeck };
+  module.exports = { createDeck, shuffleDeck, handValue, isBlackjack, isBust };
 }
