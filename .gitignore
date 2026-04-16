@@ -1,0 +1,41 @@
+# Claude Code local settings (personal overrides, not for sharing)
+.claude/settings.local.json
+
+# Claude Code session transcripts and memory
+.claude/sessions/
+.claude/projects/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+
+# Build outputs
+dist/
+build/
+out/
+*.egg-info/
+
+# Logs
+*.log
+logs/
