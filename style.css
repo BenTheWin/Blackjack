@@ -1,1 +1,407 @@
-/* Styles added in Tasks 5–6 */
+/* ============================================================
+   Reset & base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #0d4a26;
+  color: #fff;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ============================================================
+   App shell
+   ============================================================ */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+/* ============================================================
+   Top bar
+   ============================================================ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  flex-shrink: 0;
+}
+
+.game-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c9a84c;
+}
+
+.balance-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.balance-label {
+  font-size: 12px;
+  color: #aaa;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.balance-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #c9a84c;
+  min-width: 80px;
+  text-align: right;
+}
+
+.balance-amount.bounce {
+  animation: balanceBounce 0.4s ease;
+}
+
+@keyframes balanceBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.btn-add-funds {
+  background: transparent;
+  border: 1.5px solid #c9a84c;
+  color: #c9a84c;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-add-funds:hover { background: rgba(201, 168, 76, 0.15); }
+
+.btn-add-funds.pulse {
+  animation: addFundsPulse 1s ease infinite;
+}
+
+@keyframes addFundsPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.5); }
+  50%       { box-shadow: 0 0 0 6px rgba(201, 168, 76, 0); }
+}
+
+/* ============================================================
+   Table
+   ============================================================ */
+.table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dealer-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 12px;
+}
+
+.player-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 12px;
+}
+
+.player-area.split {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.table-divider {
+  height: 1px;
+  background: rgba(201, 168, 76, 0.2);
+  margin: 0 24px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Hand label
+   ============================================================ */
+.hand-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ============================================================
+   Hand container (used in split)
+   ============================================================ */
+.hand-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.hand-container.active-hand .cards-row {
+  outline: 2px solid #c9a84c;
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   Action bar
+   ============================================================ */
+.action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 24px;
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+  flex-shrink: 0;
+  min-height: 72px;
+}
+
+/* ============================================================
+   Action buttons
+   ============================================================ */
+.btn-action {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: 1.5px solid #c9a84c;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-filled  { background: #c9a84c; color: #0d2b1a; }
+.btn-outline { background: transparent; color: #c9a84c; }
+.btn-filled:hover  { background: #e0b84d; }
+.btn-outline:hover { background: rgba(201, 168, 76, 0.12); }
+.btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ============================================================
+   Result overlay
+   ============================================================ */
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.result-message {
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: scale(0.7);
+  animation: resultPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes resultPop {
+  to { opacity: 1; transform: scale(1); }
+}
+
+.result-message.win       { color: #c9a84c; }
+.result-message.blackjack { color: #f0e080; }
+.result-message.lose      { color: #e74c3c; }
+.result-message.push      { color: #bbb; }
+
+/* ============================================================
+   Cards row
+   ============================================================ */
+.cards-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-height: 96px;
+  position: relative;
+}
+
+/* ============================================================
+   Card component
+   ============================================================ */
+.card {
+  width: 64px;
+  height: 90px;
+  border-radius: 8px;
+  position: relative;
+  transform-style: preserve-3d;
+  flex-shrink: 0;
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-front {
+  background: #f9f9f9;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px;
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #1a3a6c, #0d2040);
+  border: 1px solid rgba(100, 140, 200, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotateY(180deg);
+}
+
+.card-back::after {
+  content: '';
+  width: 44px;
+  height: 66px;
+  border: 1px solid rgba(100, 140, 200, 0.3);
+  border-radius: 4px;
+}
+
+.card-rank {
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.card-suit-center {
+  font-size: 26px;
+  line-height: 1;
+  text-align: center;
+}
+
+.card-rank-bottom {
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  transform: rotate(180deg);
+  align-self: flex-end;
+}
+
+.card.red .card-rank,
+.card.red .card-suit-center,
+.card.red .card-rank-bottom { color: #c0392b; }
+
+.card.black .card-rank,
+.card.black .card-suit-center,
+.card.black .card-rank-bottom { color: #1a1a1a; }
+
+/* ============================================================
+   Card deal animation
+   ============================================================ */
+@keyframes dealSlideFlip {
+  0%   { transform: translate(140px, -140px) rotateY(90deg); opacity: 0; }
+  45%  { transform: translate(0, 0) rotateY(90deg); opacity: 1; }
+  100% { transform: translate(0, 0) rotateY(0deg); }
+}
+
+@keyframes dealSlideNoFlip {
+  0%   { transform: translate(140px, -140px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
+
+.card.dealing          { animation: dealSlideFlip   0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+.card.dealing-facedown { animation: dealSlideNoFlip 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+/* ============================================================
+   Card result flashes
+   ============================================================ */
+@keyframes winFlash {
+  0%, 100% { filter: brightness(1); }
+  40%       { filter: brightness(1.3) drop-shadow(0 0 10px rgba(201,168,76,0.9)); }
+}
+
+@keyframes loseFlash {
+  0%, 100% { filter: brightness(1); }
+  40%       { filter: brightness(0.8) drop-shadow(0 0 10px rgba(231,76,60,0.9)); }
+}
+
+.card.flash-win  { animation: winFlash  0.6s ease; }
+.card.flash-lose { animation: loseFlash 0.6s ease; }
+
+/* ============================================================
+   Chip component
+   ============================================================ */
+.chip {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  border: 4px solid #e8d48a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  font-weight: 900;
+  font-size: 13px;
+  user-select: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.chip::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 3px dashed rgba(232, 212, 138, 0.6);
+  pointer-events: none;
+}
+
+.chip:hover  { transform: scale(1.08); box-shadow: 0 6px 16px rgba(0,0,0,0.6); }
+.chip:active { transform: scale(0.95); }
+
+.chip-5   { background: #c0392b; color: #fff; }
+.chip-25  { background: #27ae60; color: #fff; }
+.chip-100 { background: #1a1a2e; color: #e8d48a; }
