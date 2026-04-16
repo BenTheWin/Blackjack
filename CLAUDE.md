@@ -27,3 +27,7 @@ A browser-based Blackjack game on the `feature/blackjack-game` branch.
 **Run game:** Open `index.html` in a browser (no build step needed).
 
 **Architecture:** `game.js` is pure state machine (no DOM). `ui.js` owns all DOM. State flows: `BETTING → DEALING → PLAYER_TURN → DEALER_TURN → RESULT → BETTING`.
+
+**UI invariants to preserve:**
+- `updateHandLabels()` is state-aware: during `PLAYER_TURN`/`DEALING` it shows only `dealerCards[0]` (hole card hidden); during `DEALER_TURN` and `RESULT` it shows the full dealer hand (`handValue(game.dealerCards)`). Do not regress this.
+- The result message `'BUST!'` must only appear when a player hand actually busted (`isBust(hand.cards)`). When the player simply loses to the dealer, show `'DEALER WINS'` instead.

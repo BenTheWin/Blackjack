@@ -155,8 +155,11 @@ function updateHandLabels() {
     const val = handValue(hand.cards);
     label.textContent = `You • ${val} • Bet ${fmt(hand.bet)}`;
   });
-  const visibleDealerVal = handValue([game.dealerCards[0]]);
-  dealerLabelEl.textContent = `Dealer • ${visibleDealerVal}`;
+  const showFullDealerHand = game.state === 'DEALER_TURN' || game.state === 'RESULT';
+  const dealerVal = showFullDealerHand
+    ? handValue(game.dealerCards)
+    : handValue([game.dealerCards[0]]);
+  dealerLabelEl.textContent = `Dealer • ${dealerVal}`;
 }
 
 // ============================================================
@@ -331,7 +334,7 @@ function renderResult() {
   let message, cls;
   if (results.every(r => r === 'blackjack'))  { message = 'BLACKJACK!'; cls = 'blackjack'; }
   else if (results.every(r => r === 'win'))    { message = 'YOU WIN!';   cls = 'win'; }
-  else if (results.every(r => r === 'lose'))   { message = 'BUST!';      cls = 'lose'; }
+  else if (results.every(r => r === 'lose'))   { message = game.hands.some(h => isBust(h.cards)) ? 'BUST!' : 'DEALER WINS'; cls = 'lose'; }
   else if (results.every(r => r === 'push'))   { message = 'PUSH';       cls = 'push'; }
   else if (results.includes('blackjack'))      { message = 'BLACKJACK!'; cls = 'blackjack'; }
   else if (results.includes('win'))            { message = 'WIN!';        cls = 'win'; }
