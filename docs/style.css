@@ -419,11 +419,12 @@ body {
   .game-title {
     font-size: 13px;
     flex-basis: 100%;
+    text-align: center;
   }
 
   .balance-area {
     gap: 8px;
-    flex: 1;
+    margin-left: auto;
   }
 
   .balance-amount {
