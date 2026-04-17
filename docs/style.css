@@ -252,8 +252,8 @@ body {
    Card component
    ============================================================ */
 .card {
-  width: 64px;
-  height: 90px;
+  width: clamp(48px, 11vw, 70px);
+  height: clamp(68px, 15.5vw, 98px);
   border-radius: 8px;
   position: relative;
   transform-style: preserve-3d;
@@ -374,18 +374,18 @@ body {
    Chip component
    ============================================================ */
 .chip {
-  width: 64px;
-  height: 64px;
+  width: clamp(56px, 12vw, 80px);
+  height: clamp(56px, 12vw, 80px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
-  border: 4px solid #e8d48a;
+  border: clamp(2px, 0.3vw, 4px) solid #e8d48a;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   font-weight: 900;
-  font-size: 13px;
+  font-size: clamp(11px, 2.5vw, 13px);
   user-select: none;
   transition: transform 0.1s, box-shadow 0.1s;
 }
@@ -393,9 +393,9 @@ body {
 .chip::before {
   content: '';
   position: absolute;
-  inset: 5px;
+  inset: 8%;
   border-radius: 50%;
-  border: 3px dashed rgba(232, 212, 138, 0.6);
+  border: clamp(2px, 0.2vw, 3px) dashed rgba(232, 212, 138, 0.6);
   pointer-events: none;
 }
 
@@ -405,3 +405,84 @@ body {
 .chip-5   { background: #c0392b; color: #fff; }
 .chip-25  { background: #27ae60; color: #fff; }
 .chip-100 { background: #1a1a2e; color: #e8d48a; }
+
+/* ============================================================
+   Mobile portrait optimization
+   ============================================================ */
+@media (max-width: 600px) {
+  .top-bar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .game-title {
+    font-size: 13px;
+    flex-basis: 100%;
+  }
+
+  .balance-area {
+    gap: 8px;
+    flex: 1;
+  }
+
+  .balance-amount {
+    min-width: auto;
+    font-size: 16px;
+  }
+
+  .btn-add-funds {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .dealer-area,
+  .player-area {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .table-divider {
+    margin: 8px 16px;
+  }
+
+  .cards-row {
+    gap: 6px;
+    min-height: auto;
+  }
+
+  .action-bar {
+    padding: 12px 16px;
+    gap: 8px;
+    min-height: auto;
+    flex-wrap: wrap;
+  }
+
+  .btn-action {
+    padding: 10px 16px;
+    font-size: 12px;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .hand-label {
+    font-size: 10px;
+  }
+
+  .result-message {
+    font-size: clamp(32px, 10vw, 48px);
+    letter-spacing: 2px;
+  }
+
+  .card-rank {
+    font-size: clamp(10px, 2vw, 14px);
+  }
+
+  .card-suit-center {
+    font-size: clamp(18px, 5vw, 26px);
+  }
+
+  .card-rank-bottom {
+    font-size: clamp(10px, 2vw, 14px);
+  }
+}
