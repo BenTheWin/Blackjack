@@ -1,6 +1,7 @@
 // ============================================================
-// Game instance
+// Sound and Game instance
 // ============================================================
+const sound = new SoundSystem();
 const game = new BlackjackGame();
 
 // ============================================================
@@ -354,7 +355,40 @@ function renderResult() {
 }
 
 // ============================================================
+// Title screen
+// ============================================================
+function showTitleScreen() {
+  const screen    = document.getElementById('title-screen');
+  const playBtn   = document.getElementById('playNowBtn');
+  const titleMute = document.getElementById('titleMuteBtn');
+
+  updateMuteButtons();
+
+  playBtn.addEventListener('click', () => {
+    sound.startAmbient();
+    screen.style.opacity = '0';
+    screen.addEventListener('transitionend', () => {
+      screen.remove();
+      renderBetting();
+    }, { once: true });
+  });
+
+  titleMute.addEventListener('click', toggleMute);
+}
+
+function toggleMute() {
+  sound.setMuted(!sound.muted);
+  updateMuteButtons();
+}
+
+function updateMuteButtons() {
+  const icon = sound.muted ? '🔇' : '🔊';
+  document.querySelectorAll('.btn-mute').forEach(btn => btn.textContent = icon);
+}
+
+// ============================================================
 // Boot
 // ============================================================
+document.getElementById('gameMuteBtn').addEventListener('click', toggleMute);
 updateBalance();
-renderBetting();
+showTitleScreen();
