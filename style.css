@@ -615,6 +615,6 @@ body {
   100% { transform: scale(1); }
 }
 
-.dealer-area--reveal {
+.dealer-area--reveal #dealer-label {
   animation: dealerRevealPulse 0.3s ease;
 }
