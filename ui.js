@@ -366,11 +366,13 @@ function showTitleScreen() {
 
   playBtn.addEventListener('click', () => {
     sound.startAmbient();
-    screen.style.opacity = '0';
     screen.addEventListener('transitionend', () => {
       screen.remove();
       renderBetting();
     }, { once: true });
+    requestAnimationFrame(() => {
+      screen.style.opacity = '0';
+    });
   });
 
   titleMute.addEventListener('click', toggleMute);
