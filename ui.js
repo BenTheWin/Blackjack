@@ -75,6 +75,7 @@ function renderBetting() {
 
 function addChip(amount) {
   game.placeBet(amount);
+  sound.playChip();
   document.getElementById('current-bet').textContent = fmt(game.currentBet);
   const showBtns = game.currentBet > 0;
   document.getElementById('clearBtn').style.display = showBtns ? '' : 'none';
@@ -133,6 +134,7 @@ function onDeal() {
       const el = makeCardEl(card, faceDown);
       el.classList.add(faceDown ? 'dealing-facedown' : 'dealing');
       container.appendChild(el);
+      sound.playDeal();
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing', 'dealing-facedown');
         if (i === 3) onDealComplete();
@@ -193,6 +195,7 @@ function onHit() {
   const el = makeCardEl(card, false);
   el.classList.add('dealing');
   container.appendChild(el);
+  sound.playDeal();
 
   el.addEventListener('animationend', () => {
     el.classList.remove('dealing');
@@ -229,6 +232,7 @@ function onDouble() {
   const el = makeCardEl(card, false);
   el.classList.add('dealing');
   container.appendChild(el);
+  sound.playDeal();
 
   el.addEventListener('animationend', () => {
     el.classList.remove('dealing');
@@ -283,6 +287,7 @@ function runDealerTurn() {
 
   const holeCardEl = dealerCardsEl.lastElementChild;
   if (holeCardEl && holeCardEl.classList.contains('flipped')) {
+    sound.playFlip();
     const holeCard = game.dealerCards[1];
     holeCardEl.classList.add(isRed(holeCard.suit) ? 'red' : 'black');
     requestAnimationFrame(() => {
@@ -298,6 +303,7 @@ function runDealerTurn() {
       const el = makeCardEl(card, false);
       el.classList.add('dealing');
       dealerCardsEl.appendChild(el);
+      sound.playDeal();
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing');
         dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards)}`;
@@ -350,6 +356,11 @@ function renderResult() {
   else                                          { message = 'LOSE';        cls = 'lose'; }
 
   if (cls === 'blackjack' || cls === 'win') triggerConfetti();
+
+  if (cls === 'blackjack') sound.playBlackjack();
+  else if (cls === 'win')  sound.playWin();
+  else if (cls === 'lose') sound.playLose();
+  else if (cls === 'push') sound.playPush();
 
   resultOverlay.innerHTML = `<div class="result-message ${cls}">${message}</div>`;
   updateBalance();
