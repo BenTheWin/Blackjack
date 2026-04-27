@@ -1,0 +1,87 @@
+<h2>Game Layout</h2>
+<p class="subtitle">How the table is structured. Click to approve or let me know what to change.</p>
+
+<div class="mockup" style="max-width:680px;margin:0 auto;">
+  <div class="mockup-header">Blackjack Table — In-Round View</div>
+  <div class="mockup-body" style="background:#0d4a26;padding:0;overflow:hidden;border-radius:0 0 8px 8px;">
+
+    <!-- Full table -->
+    <div style="font-family:'Segoe UI',sans-serif;color:#fff;min-height:480px;display:flex;flex-direction:column;">
+
+      <!-- Top bar -->
+      <div style="background:rgba(0,0,0,0.35);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(201,168,76,0.3);">
+        <span style="color:#c9a84c;font-weight:700;font-size:14px;letter-spacing:1px;">♠ BLACKJACK ♠</span>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span style="color:#aaa;font-size:12px;">Balance</span>
+          <span style="color:#c9a84c;font-weight:700;font-size:16px;">$500</span>
+          <div style="background:rgba(201,168,76,0.15);border:1px solid #c9a84c;color:#c9a84c;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;">+ ADD FUNDS</div>
+        </div>
+      </div>
+
+      <!-- Dealer area -->
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 12px;gap:10px;">
+        <div style="color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:2px;text-transform:uppercase;">Dealer • 17</div>
+        <div style="display:flex;gap:8px;">
+          <div style="background:#f9f9f9;border-radius:8px;width:52px;height:74px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:6px;font-weight:700;font-size:18px;color:#c0392b;box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+            <span style="font-size:13px;line-height:1;">A</span>
+            <span style="font-size:20px;line-height:1;">♥</span>
+            <span style="font-size:13px;line-height:1;transform:rotate(180deg);">A</span>
+          </div>
+          <div style="background:linear-gradient(135deg,#1a3a6c,#0d2040);border-radius:8px;width:52px;height:74px;border:1px solid rgba(100,140,200,0.4);box-shadow:0 4px 14px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="width:34px;height:52px;border:1px solid rgba(100,140,200,0.3);border-radius:4px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider line -->
+      <div style="border-top:1px solid rgba(201,168,76,0.2);margin:0 20px;"></div>
+
+      <!-- Player area -->
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 20px 0;gap:10px;">
+        <div style="display:flex;gap:8px;">
+          <div style="background:#f9f9f9;border-radius:8px;width:52px;height:74px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:6px;font-weight:700;font-size:18px;color:#c0392b;box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+            <span style="font-size:13px;line-height:1;">A</span>
+            <span style="font-size:20px;line-height:1;">♥</span>
+            <span style="font-size:13px;line-height:1;transform:rotate(180deg);">A</span>
+          </div>
+          <div style="background:#f9f9f9;border-radius:8px;width:52px;height:74px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:6px;font-weight:700;font-size:18px;color:#222;box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+            <span style="font-size:13px;line-height:1;">K</span>
+            <span style="font-size:20px;line-height:1;">♠</span>
+            <span style="font-size:13px;line-height:1;transform:rotate(180deg);">K</span>
+          </div>
+        </div>
+        <div style="color:rgba(255,255,255,0.5);font-size:11px;letter-spacing:2px;text-transform:uppercase;">You • 21 • Bet $25</div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="background:rgba(0,0,0,0.25);padding:14px 20px;display:flex;justify-content:center;gap:10px;border-top:1px solid rgba(201,168,76,0.2);">
+        <div style="background:#c9a84c;color:#0d2b1a;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;">HIT</div>
+        <div style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;">STAND</div>
+        <div style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;">DOUBLE</div>
+        <div style="background:transparent;color:#c9a84c;border:1.5px solid #c9a84c;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;">SPLIT</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="max-width:680px;margin:16px auto 0;">
+  <p style="font-size:13px;color:#999;">During the <strong>betting phase</strong>, the action buttons are replaced by chip buttons ($5 / $25 / $100) and a DEAL button. The ADD FUNDS button is always visible in the top bar.</p>
+</div>
+
+<div class="options" style="max-width:680px;margin:12px auto 0;">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Looks good</h3>
+      <p>Proceed with this layout</p>
+    </div>
+  </div>
+  <div class="option" data-choice="change" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>Change something</h3>
+      <p>Tell me what to adjust</p>
+    </div>
+  </div>
+</div>

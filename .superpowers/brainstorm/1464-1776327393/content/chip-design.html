@@ -1,0 +1,84 @@
+<h2>Casino Chip Buttons</h2>
+<p class="subtitle">Circular chips with classic dashed edge pattern — pick a color scheme.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="classic" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d2b1a;padding:28px;display:flex;flex-direction:column;align-items:center;gap:20px;min-height:180px;justify-content:center;">
+      <div style="display:flex;gap:18px;align-items:center;">
+        <!-- $5 red chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#c0392b;border:4px solid #e8d48a;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(232,212,138,0.6);margin:5px;"></div>
+            <div style="position:relative;text-align:center;line-height:1;">
+              <div style="color:#fff;font-weight:900;font-size:13px;font-family:'Segoe UI',sans-serif;text-shadow:0 1px 3px rgba(0,0,0,0.5);">$5</div>
+            </div>
+          </div>
+        </div>
+        <!-- $25 green chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#27ae60;border:4px solid #e8d48a;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(232,212,138,0.6);margin:5px;"></div>
+            <div style="position:relative;text-align:center;line-height:1;">
+              <div style="color:#fff;font-weight:900;font-size:12px;font-family:'Segoe UI',sans-serif;text-shadow:0 1px 3px rgba(0,0,0,0.5);">$25</div>
+            </div>
+          </div>
+        </div>
+        <!-- $100 black chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#1a1a2e;border:4px solid #e8d48a;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(232,212,138,0.6);margin:5px;"></div>
+            <div style="position:relative;text-align:center;line-height:1;">
+              <div style="color:#e8d48a;font-weight:900;font-size:11px;font-family:'Segoe UI',sans-serif;text-shadow:0 1px 3px rgba(0,0,0,0.5);">$100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="color:rgba(201,168,76,0.6);font-size:10px;letter-spacing:1px;text-transform:uppercase;">Red • Green • Black</div>
+    </div>
+    <div class="card-body">
+      <h3>Classic Casino</h3>
+      <p>Traditional casino colors — red $5, green $25, black $100. Gold dashed edge ring on each chip.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="gold" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d2b1a;padding:28px;display:flex;flex-direction:column;align-items:center;gap:20px;min-height:180px;justify-content:center;">
+      <div style="display:flex;gap:18px;align-items:center;">
+        <!-- $5 deep blue chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#1a3a6c;border:4px solid #c9a84c;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(201,168,76,0.7);margin:5px;"></div>
+            <div style="position:relative;text-align:center;">
+              <div style="color:#c9a84c;font-weight:900;font-size:13px;font-family:'Segoe UI',sans-serif;">$5</div>
+            </div>
+          </div>
+        </div>
+        <!-- $25 burgundy chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#6b1a2e;border:4px solid #c9a84c;box-shadow:0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(201,168,76,0.7);margin:5px;"></div>
+            <div style="position:relative;text-align:center;">
+              <div style="color:#c9a84c;font-weight:900;font-size:12px;font-family:'Segoe UI',sans-serif;">$25</div>
+            </div>
+          </div>
+        </div>
+        <!-- $100 near-black chip -->
+        <div style="position:relative;width:62px;height:62px;">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#111;border:4px solid #c9a84c;box-shadow:0 4px 12px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;">
+            <div style="position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(201,168,76,0.7);margin:5px;"></div>
+            <div style="position:relative;text-align:center;">
+              <div style="color:#c9a84c;font-weight:900;font-size:11px;font-family:'Segoe UI',sans-serif;">$100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="color:rgba(201,168,76,0.6);font-size:10px;letter-spacing:1px;text-transform:uppercase;">Blue • Burgundy • Black</div>
+    </div>
+    <div class="card-body">
+      <h3>All-Gold Accents</h3>
+      <p>Every chip uses the game's gold as the edge and text — blue, burgundy, black centers. Cohesive with the Casino Dark palette.</p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Title Screen Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    gap: 16px;
+  }
+  .label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .screen {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 16/10;
+    background: radial-gradient(ellipse at center, #1a6b3a 0%, #0d4a26 50%, #082e18 100%);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  /* Felt texture lines */
+  .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,0.015) 3px,
+      rgba(255,255,255,0.015) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* Gold border ring */
+  .screen::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  /* Floating card fan */
+  .card-fan {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    display: flex;
+    transform-origin: bottom center;
+  }
+  .fan-card {
+    width: 52px;
+    height: 72px;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+  .fan-card.back {
+    background: linear-gradient(135deg, #1a3a6c, #0d2040);
+    border: 1px solid rgba(100,140,200,0.3);
+  }
+  .fan-card.front {
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .fan-card.front.red { color: #c0392b; }
+  .fan-card.front.black { color: #1a1a1a; }
+
+  .suit-row {
+    font-size: 13px;
+    letter-spacing: 8px;
+    color: rgba(201,168,76,0.7);
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .title-text {
+    font-size: clamp(32px, 7vw, 52px);
+    font-weight: 900;
+    color: #c9a84c;
+    letter-spacing: 8px;
+    text-shadow: 0 0 30px rgba(201,168,76,0.5), 0 2px 8px rgba(0,0,0,0.6);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 8px;
+  }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 32px;
+  }
+
+  .play-btn {
+    padding: 12px 40px;
+    border: 2px solid #c9a84c;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #c9a84c;
+    background: rgba(201,168,76,0.1);
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .play-btn:hover {
+    background: rgba(201,168,76,0.2);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  .mute-hint {
+    position: absolute;
+    bottom: 14px;
+    right: 16px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.25);
+    z-index: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    max-width: 560px;
+    text-align: center;
+    line-height: 1.6;
+  }
+  .note strong { color: rgba(255,255,255,0.75); }
+</style>
+</head>
+<body>
+  <p class="label">Title Screen — Casino Elegance</p>
+
+  <div class="screen">
+    <!-- Card fan in corner (will animate in real version) -->
+    <div class="card-fan" style="right: 10px; top: 10px; transform: rotate(-15deg);">
+      <div class="fan-card back" style="transform: rotate(-20deg) translateX(-30px);"></div>
+      <div class="fan-card back" style="transform: rotate(-10deg) translateX(-15px);"></div>
+      <div class="fan-card front red" style="transform: rotate(0deg);">
+        <span>A</span><span style="font-size:18px;text-align:center;">♥</span><span style="transform:rotate(180deg);display:block;">A</span>
+      </div>
+    </div>
+    <!-- Mirror fan left -->
+    <div class="card-fan" style="left: 10px; top: 10px; transform: rotate(15deg) scaleX(-1);">
+      <div class="fan-card back" style="transform: rotate(-20deg) translateX(-30px);"></div>
+      <div class="fan-card back" style="transform: rotate(-10deg) translateX(-15px);"></div>
+      <div class="fan-card front black" style="transform: rotate(0deg);">
+        <span>K</span><span style="font-size:18px;text-align:center;">♠</span><span style="transform:rotate(180deg);display:block;">K</span>
+      </div>
+    </div>
+
+    <div class="suit-row">♠ &nbsp; ♥ &nbsp; ♦ &nbsp; ♣</div>
+    <div class="title-text">BLACKJACK</div>
+    <div class="tagline">Beat the Dealer</div>
+    <button class="play-btn">Play Now</button>
+    <div class="mute-hint">🔊 Click to mute</div>
+  </div>
+
+  <p class="note">
+    <strong>Card fan</strong> fans in from corners on load &nbsp;·&nbsp;
+    <strong>Ambient music</strong> starts when you click Play &nbsp;·&nbsp;
+    <strong>Mute toggle</strong> bottom-right corner persists across sessions
+  </p>
+</body>
+</html>

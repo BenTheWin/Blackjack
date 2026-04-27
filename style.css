@@ -487,6 +487,19 @@ body {
   .card-rank-bottom {
     font-size: clamp(10px, 2vw, 14px);
   }
+
+  #title-screen::after {
+    display: none;
+  }
+
+  .title-suit-row {
+    font-size: 11px;
+    letter-spacing: 6px;
+  }
+
+  .title-heading {
+    font-size: clamp(40px, 13vw, 64px);
+  }
 }
 
 /* ============================================================

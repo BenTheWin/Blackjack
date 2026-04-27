@@ -1,0 +1,42 @@
+{
+  "session_id": "session-2026-04-27-1456",
+  "started": "2026-04-27T19:56:01.674Z",
+  "files_read": {
+    "c:/Code/Blackjack/.wolf/anatomy.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-27T19:59:57.545Z"
+    },
+    "c:/Code/Blackjack/.wolf/cerebrum.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-27T19:59:57.833Z"
+    },
+    "c:/Code/Blackjack/index.html": {
+      "count": 1,
+      "tokens": 411,
+      "first_read": "2026-04-27T20:00:00.580Z"
+    },
+    "c:/Code/Blackjack/style.css": {
+      "count": 3,
+      "tokens": 3986,
+      "first_read": "2026-04-27T20:00:00.974Z"
+    }
+  },
+  "files_written": [
+    {
+      "file": "c:/Code/Blackjack/style.css",
+      "action": "edit",
+      "tokens": 72,
+      "at": "2026-04-27T20:01:07.425Z"
+    }
+  ],
+  "edit_counts": {
+    "style.css": 1
+  },
+  "anatomy_hits": 2,
+  "anatomy_misses": 2,
+  "repeated_reads_warned": 2,
+  "cerebrum_warnings": 0,
+  "stop_count": 1
+}

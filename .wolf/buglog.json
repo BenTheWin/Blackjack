@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "bugs": [
+    {
+      "id": "bug-001",
+      "timestamp": "2026-04-27T05:42:23.461Z",
+      "error_message": "CSS fix: font-size",
+      "file": "style.css",
+      "root_cause": "font-size: clamp(10px, 2vw, 14px) → 18px",
+      "fix": "Changed font-size: clamp(10px, 2vw, 14px) → 18px",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-27T05:42:23.461Z"
+    },
+    {
+      "id": "bug-002",
+      "timestamp": "2026-04-27T06:10:38.220Z",
+      "error_message": "CSS fix: align-items",
+      "file": "style.css",
+      "root_cause": "align-items: center → flex-start",
+      "fix": "Changed align-items: center → flex-start",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-27T06:15:24.270Z"
+    },
+    {
+      "id": "bug-003",
+      "timestamp": "2026-04-27T20:01:07.427Z",
+      "error_message": "CSS fix: font-size",
+      "file": "style.css",
+      "root_cause": "font-size: clamp(10px, 2vw, 14px) → clamp(40px, 13vw, 64px)",
+      "fix": "Changed font-size: clamp(10px, 2vw, 14px) → clamp(40px, 13vw, 64px)",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-27T20:01:07.427Z"
+    }
+  ]
+}
