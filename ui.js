@@ -274,6 +274,13 @@ function onSplit() {
 function runDealerTurn() {
   actionBar.innerHTML = '';
 
+  const dealerArea = document.querySelector('.dealer-area');
+  const dealerLabel = document.getElementById('dealer-label');
+  dealerArea.classList.add('dealer-area--reveal');
+  dealerLabel.addEventListener('animationend', () => {
+    dealerArea.classList.remove('dealer-area--reveal');
+  }, { once: true });
+
   const holeCardEl = dealerCardsEl.lastElementChild;
   if (holeCardEl && holeCardEl.classList.contains('flipped')) {
     const holeCard = game.dealerCards[1];
@@ -342,6 +349,8 @@ function renderResult() {
   else if (results.includes('win'))            { message = 'WIN!';        cls = 'win'; }
   else                                          { message = 'LOSE';        cls = 'lose'; }
 
+  if (cls === 'blackjack' || cls === 'win') triggerConfetti();
+
   resultOverlay.innerHTML = `<div class="result-message ${cls}">${message}</div>`;
   updateBalance();
 
@@ -386,6 +395,23 @@ function toggleMute() {
 function updateMuteButtons() {
   const icon = sound.muted ? '🔇' : '🔊';
   document.querySelectorAll('.btn-mute').forEach(btn => btn.textContent = icon);
+}
+
+// ============================================================
+// Confetti
+// ============================================================
+function triggerConfetti() {
+  const colors = ['#c9a84c', '#27ae60', 'rgba(255,255,255,0.8)', '#e0b84d', '#2ecc71'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-particle';
+    el.style.left             = `${Math.random() * 100}vw`;
+    el.style.background       = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = `${1.4 + Math.random() * 0.8}s`;
+    el.style.animationDelay   = `${Math.random() * 0.4}s`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  }
 }
 
 // ============================================================
