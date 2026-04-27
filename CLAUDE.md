@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Version Control
 
-This project uses Git with GitHub (BenTheWin/ClaudeTest, private).
+This project uses Git with GitHub (BenTheWin/Blackjack).
 
 **Commit and push regularly throughout all work** — after every meaningful unit of progress (new file, feature complete, bug fixed, config changed). Never batch up large amounts of work before committing. The goal is that GitHub always reflects current state so work is never lost and any change can be reverted.
 
