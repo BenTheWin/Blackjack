@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="title-screen">
+    <div class="title-suit-row">♠ &nbsp; ♥ &nbsp; ♦ &nbsp; ♣</div>
+    <div class="title-heading">BLACKJACK</div>
+    <div class="title-tagline">Beat the Dealer</div>
+    <button id="playNowBtn" class="btn-action btn-outline title-play-btn">Play Now</button>
+    <button id="titleMuteBtn" class="btn-mute">🔊</button>
+  </div>
+
   <div id="app">
     <header class="top-bar">
       <span class="game-title">♠ BLACKJACK ♠</span>
@@ -14,6 +22,7 @@
         <span class="balance-label">Balance</span>
         <span id="balance" class="balance-amount">$500</span>
         <button id="addFunds" class="btn-add-funds">+ ADD FUNDS</button>
+        <button id="gameMuteBtn" class="btn-mute">🔊</button>
       </div>
     </header>
 
@@ -33,6 +42,7 @@
 
   <div id="result-overlay" class="result-overlay"></div>
 
+  <script src="sound.js"></script>
   <script src="game.js"></script>
   <script src="ui.js"></script>
 </body>

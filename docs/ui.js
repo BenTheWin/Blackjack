@@ -1,6 +1,7 @@
 // ============================================================
-// Game instance
+// Sound and Game instance
 // ============================================================
+const sound = new SoundSystem();
 const game = new BlackjackGame();
 
 // ============================================================
@@ -74,6 +75,7 @@ function renderBetting() {
 
 function addChip(amount) {
   game.placeBet(amount);
+  sound.playChip();
   document.getElementById('current-bet').textContent = fmt(game.currentBet);
   const showBtns = game.currentBet > 0;
   document.getElementById('clearBtn').style.display = showBtns ? '' : 'none';
@@ -132,6 +134,7 @@ function onDeal() {
       const el = makeCardEl(card, faceDown);
       el.classList.add(faceDown ? 'dealing-facedown' : 'dealing');
       container.appendChild(el);
+      sound.playDeal();
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing', 'dealing-facedown');
         if (i === 3) onDealComplete();
@@ -192,6 +195,7 @@ function onHit() {
   const el = makeCardEl(card, false);
   el.classList.add('dealing');
   container.appendChild(el);
+  sound.playDeal();
 
   el.addEventListener('animationend', () => {
     el.classList.remove('dealing');
@@ -228,6 +232,7 @@ function onDouble() {
   const el = makeCardEl(card, false);
   el.classList.add('dealing');
   container.appendChild(el);
+  sound.playDeal();
 
   el.addEventListener('animationend', () => {
     el.classList.remove('dealing');
@@ -273,8 +278,16 @@ function onSplit() {
 function runDealerTurn() {
   actionBar.innerHTML = '';
 
+  const dealerArea = document.querySelector('.dealer-area');
+  const dealerLabel = document.getElementById('dealer-label');
+  dealerArea.classList.add('dealer-area--reveal');
+  const cleanupReveal = () => dealerArea.classList.remove('dealer-area--reveal');
+  dealerLabel.addEventListener('animationend', cleanupReveal, { once: true });
+  setTimeout(cleanupReveal, 400);
+
   const holeCardEl = dealerCardsEl.lastElementChild;
   if (holeCardEl && holeCardEl.classList.contains('flipped')) {
+    sound.playFlip();
     const holeCard = game.dealerCards[1];
     holeCardEl.classList.add(isRed(holeCard.suit) ? 'red' : 'black');
     requestAnimationFrame(() => {
@@ -285,21 +298,22 @@ function runDealerTurn() {
   const extraCards = game.dealerPlay();
 
   let delay = 500;
-  extraCards.forEach(card => {
+  extraCards.forEach((card, cardIndex) => {
     setTimeout(() => {
       const el = makeCardEl(card, false);
       el.classList.add('dealing');
       dealerCardsEl.appendChild(el);
+      sound.playDeal();
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing');
-        dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards)}`;
+        dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards.slice(0, 2 + cardIndex + 1))}`;
       }, { once: true });
     }, delay);
     delay += 500;
   });
 
   setTimeout(() => {
-    dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards)}`;
+    dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards.slice(0, 2))}`;
   }, 400);
 
   setTimeout(renderResult, delay + 300);
@@ -341,6 +355,13 @@ function renderResult() {
   else if (results.includes('win'))            { message = 'WIN!';        cls = 'win'; }
   else                                          { message = 'LOSE';        cls = 'lose'; }
 
+  if (cls === 'blackjack' || cls === 'win') triggerConfetti();
+
+  if (cls === 'blackjack') sound.playBlackjack();
+  else if (cls === 'win')  sound.playWin();
+  else if (cls === 'lose') sound.playLose();
+  else if (cls === 'push') sound.playPush();
+
   resultOverlay.innerHTML = `<div class="result-message ${cls}">${message}</div>`;
   updateBalance();
 
@@ -354,7 +375,58 @@ function renderResult() {
 }
 
 // ============================================================
+// Title screen
+// ============================================================
+function showTitleScreen() {
+  const screen    = document.getElementById('title-screen');
+  const playBtn   = document.getElementById('playNowBtn');
+  const titleMute = document.getElementById('titleMuteBtn');
+
+  updateMuteButtons();
+
+  playBtn.addEventListener('click', () => {
+    screen.addEventListener('transitionend', () => {
+      screen.remove();
+      renderBetting();
+    }, { once: true });
+    requestAnimationFrame(() => {
+      screen.style.opacity = '0';
+    });
+  });
+
+  titleMute.addEventListener('click', toggleMute);
+}
+
+function toggleMute() {
+  sound.setMuted(!sound.muted);
+  updateMuteButtons();
+}
+
+function updateMuteButtons() {
+  const icon = sound.muted ? '🔇' : '🔊';
+  document.querySelectorAll('.btn-mute').forEach(btn => btn.textContent = icon);
+}
+
+// ============================================================
+// Confetti
+// ============================================================
+function triggerConfetti() {
+  const colors = ['#c9a84c', '#27ae60', 'rgba(255,255,255,0.8)', '#e0b84d', '#2ecc71'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-particle';
+    el.style.left             = `${Math.random() * 100}vw`;
+    el.style.background       = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = `${1.4 + Math.random() * 0.8}s`;
+    el.style.animationDelay   = `${Math.random() * 0.4}s`;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+  }
+}
+
+// ============================================================
 // Boot
 // ============================================================
+document.getElementById('gameMuteBtn').addEventListener('click', toggleMute);
 updateBalance();
-renderBetting();
+showTitleScreen();
