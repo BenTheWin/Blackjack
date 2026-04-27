@@ -277,9 +277,9 @@ function runDealerTurn() {
   const dealerArea = document.querySelector('.dealer-area');
   const dealerLabel = document.getElementById('dealer-label');
   dealerArea.classList.add('dealer-area--reveal');
-  dealerLabel.addEventListener('animationend', () => {
-    dealerArea.classList.remove('dealer-area--reveal');
-  }, { once: true });
+  const cleanupReveal = () => dealerArea.classList.remove('dealer-area--reveal');
+  dealerLabel.addEventListener('animationend', cleanupReveal, { once: true });
+  setTimeout(cleanupReveal, 400);
 
   const holeCardEl = dealerCardsEl.lastElementChild;
   if (holeCardEl && holeCardEl.classList.contains('flipped')) {
