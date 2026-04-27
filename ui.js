@@ -298,7 +298,7 @@ function runDealerTurn() {
   const extraCards = game.dealerPlay();
 
   let delay = 500;
-  extraCards.forEach(card => {
+  extraCards.forEach((card, cardIndex) => {
     setTimeout(() => {
       const el = makeCardEl(card, false);
       el.classList.add('dealing');
@@ -306,14 +306,14 @@ function runDealerTurn() {
       sound.playDeal();
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing');
-        dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards)}`;
+        dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards.slice(0, 2 + cardIndex + 1))}`;
       }, { once: true });
     }, delay);
     delay += 500;
   });
 
   setTimeout(() => {
-    dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards)}`;
+    dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards.slice(0, 2))}`;
   }, 400);
 
   setTimeout(renderResult, delay + 300);
@@ -385,7 +385,6 @@ function showTitleScreen() {
   updateMuteButtons();
 
   playBtn.addEventListener('click', () => {
-    sound.startAmbient();
     screen.addEventListener('transitionend', () => {
       screen.remove();
       renderBetting();
