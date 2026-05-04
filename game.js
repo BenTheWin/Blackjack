@@ -129,7 +129,7 @@ class BlackjackGame {
     if (this.state !== 'PLAYER_TURN') return;
     const hand = this.hands[this.activeHandIndex];
     if (!hand || hand.cards.length !== 2) return;
-    if (hand.cards[0].rank !== hand.cards[1].rank) return;
+    if (hand.cards[0].value !== hand.cards[1].value) return;
     if (hand.bet > this.balance) return;
     this.balance -= hand.bet;
     const card1 = this.deck.pop();
@@ -149,7 +149,7 @@ class BlackjackGame {
     if (this.state !== 'PLAYER_TURN') return false;
     const hand = this.hands[this.activeHandIndex];
     return hand && hand.cards.length === 2 &&
-           hand.cards[0].rank === hand.cards[1].rank &&
+           hand.cards[0].value === hand.cards[1].value &&
            hand.bet <= this.balance;
   }
 
@@ -178,13 +178,13 @@ class BlackjackGame {
   }
 
   resolve() {
-    const dealerVal = handValue(this.dealerCards);
-    const dealerBJ  = isBlackjack(this.dealerCards);
-    const dealerBust = isBust(this.dealerCards);
+    const dealerVal  = handValue(this.dealerCards);
+    const dealerBJ   = this.dealerCards.length === 2 && dealerVal === 21;
+    const dealerBust = dealerVal > 21;
     for (const hand of this.hands) {
       if (hand.result === 'lose') continue;
       const playerVal = handValue(hand.cards);
-      const playerBJ  = isBlackjack(hand.cards);
+      const playerBJ  = hand.cards.length === 2 && playerVal === 21;
       if (playerBJ && dealerBJ) {
         hand.result = 'push';
         this.balance += hand.bet;

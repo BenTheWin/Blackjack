@@ -37,13 +37,39 @@ function makeCardEl(card, faceDown) {
   return el;
 }
 
+function dealCardTo(card, container) {
+  const el = makeCardEl(card, false);
+  el.classList.add('dealing');
+  container.appendChild(el);
+  sound.playDeal();
+  return el;
+}
+
+function afterPlayerCard(el, container, handIndex) {
+  el.addEventListener('animationend', () => {
+    el.classList.remove('dealing');
+    updateHandLabels();
+    if (game.state === 'RESULT') {
+      const hand = game.hands[handIndex];
+      if (hand && hand.result === 'lose') flashCards(container, 'lose');
+      setTimeout(renderResult, 700);
+    } else if (game.state === 'DEALER_TURN') {
+      setTimeout(runDealerTurn, 300);
+    } else {
+      renderPlayerTurn();
+    }
+  }, { once: true });
+}
+
 function updateBalance() {
   balanceEl.textContent = fmt(game.balance);
-  if (game.balance === 0) {
-    addFundsBtn.classList.add('pulse');
-  } else {
-    addFundsBtn.classList.remove('pulse');
-  }
+  addFundsBtn.classList.toggle('pulse', game.balance === 0);
+}
+
+function syncBetButtons() {
+  const show = game.currentBet > 0;
+  document.getElementById('clearBtn').style.display = show ? '' : 'none';
+  document.getElementById('dealBtn').style.display  = show ? '' : 'none';
 }
 
 // ============================================================
@@ -77,17 +103,14 @@ function addChip(amount) {
   game.placeBet(amount);
   sound.playChip();
   document.getElementById('current-bet').textContent = fmt(game.currentBet);
-  const showBtns = game.currentBet > 0;
-  document.getElementById('clearBtn').style.display = showBtns ? '' : 'none';
-  document.getElementById('dealBtn').style.display  = showBtns ? '' : 'none';
+  syncBetButtons();
   updateBalance();
 }
 
 function onClearBet() {
   game.clearBet();
   document.getElementById('current-bet').textContent = fmt(0);
-  document.getElementById('clearBtn').style.display = 'none';
-  document.getElementById('dealBtn').style.display  = 'none';
+  syncBetButtons();
 }
 
 // ============================================================
@@ -156,8 +179,7 @@ function updateHandLabels() {
   game.hands.forEach((hand, i) => {
     const label = document.getElementById(`player-label-${i}`);
     if (!label) return;
-    const val = handValue(hand.cards);
-    label.textContent = `You • ${val} • Bet ${fmt(hand.bet)}`;
+    label.textContent = `You • ${handValue(hand.cards)} • Bet ${fmt(hand.bet)}`;
   });
   const showFullDealerHand = game.state === 'DEALER_TURN' || game.state === 'RESULT';
   const dealerVal = showFullDealerHand
@@ -174,41 +196,27 @@ function renderPlayerTurn() {
     el.classList.toggle('active-hand', i === game.activeHandIndex);
   });
 
+  const canDouble = game.canDouble();
+  const canSplit  = game.canSplit();
+
   actionBar.innerHTML = `
     <button class="btn-action btn-filled"  id="hitBtn">HIT</button>
     <button class="btn-action btn-outline" id="standBtn">STAND</button>
-    ${game.canDouble() ? '<button class="btn-action btn-outline" id="doubleBtn">DOUBLE</button>' : ''}
-    ${game.canSplit()  ? '<button class="btn-action btn-outline" id="splitBtn">SPLIT</button>'  : ''}`;
+    ${canDouble ? '<button class="btn-action btn-outline" id="doubleBtn">DOUBLE</button>' : ''}
+    ${canSplit  ? '<button class="btn-action btn-outline" id="splitBtn">SPLIT</button>'  : ''}`;
 
   document.getElementById('hitBtn').addEventListener('click',   onHit);
   document.getElementById('standBtn').addEventListener('click', onStand);
-  if (game.canDouble()) document.getElementById('doubleBtn').addEventListener('click', onDouble);
-  if (game.canSplit())  document.getElementById('splitBtn').addEventListener('click',  onSplit);
+  if (canDouble) document.getElementById('doubleBtn').addEventListener('click', onDouble);
+  if (canSplit)  document.getElementById('splitBtn').addEventListener('click',  onSplit);
 }
 
 function onHit() {
   const prevIndex = game.activeHandIndex;
   const card = game.hit();
   if (!card) return;
-
   const container = document.getElementById(`player-cards-${prevIndex}`);
-  const el = makeCardEl(card, false);
-  el.classList.add('dealing');
-  container.appendChild(el);
-  sound.playDeal();
-
-  el.addEventListener('animationend', () => {
-    el.classList.remove('dealing');
-    updateHandLabels();
-    if (game.state === 'RESULT') {
-      flashCards(container, 'lose');
-      setTimeout(renderResult, 700);
-    } else if (game.state === 'DEALER_TURN') {
-      setTimeout(runDealerTurn, 300);
-    } else {
-      renderPlayerTurn();
-    }
-  }, { once: true });
+  afterPlayerCard(dealCardTo(card, container), container, prevIndex);
 }
 
 function onStand() {
@@ -227,26 +235,8 @@ function onDouble() {
   const prevIndex = game.activeHandIndex;
   const card = game.double();
   if (!card) return;
-
   const container = document.getElementById(`player-cards-${prevIndex}`);
-  const el = makeCardEl(card, false);
-  el.classList.add('dealing');
-  container.appendChild(el);
-  sound.playDeal();
-
-  el.addEventListener('animationend', () => {
-    el.classList.remove('dealing');
-    updateHandLabels();
-    if (game.state === 'RESULT') {
-      const hand = game.hands[prevIndex];
-      if (hand && hand.result === 'lose') flashCards(container, 'lose');
-      setTimeout(renderResult, 700);
-    } else if (game.state === 'DEALER_TURN') {
-      setTimeout(runDealerTurn, 300);
-    } else {
-      renderPlayerTurn();
-    }
-  }, { once: true });
+  afterPlayerCard(dealCardTo(card, container), container, prevIndex);
 }
 
 function onSplit() {
@@ -278,7 +268,7 @@ function onSplit() {
 function runDealerTurn() {
   actionBar.innerHTML = '';
 
-  const dealerArea = document.querySelector('.dealer-area');
+  const dealerArea  = document.querySelector('.dealer-area');
   const dealerLabel = document.getElementById('dealer-label');
   dealerArea.classList.add('dealer-area--reveal');
   const cleanupReveal = () => dealerArea.classList.remove('dealer-area--reveal');
@@ -300,10 +290,7 @@ function runDealerTurn() {
   let delay = 500;
   extraCards.forEach((card, cardIndex) => {
     setTimeout(() => {
-      const el = makeCardEl(card, false);
-      el.classList.add('dealing');
-      dealerCardsEl.appendChild(el);
-      sound.playDeal();
+      const el = dealCardTo(card, dealerCardsEl);
       el.addEventListener('animationend', () => {
         el.classList.remove('dealing');
         dealerLabelEl.textContent = `Dealer • ${handValue(game.dealerCards.slice(0, 2 + cardIndex + 1))}`;
@@ -325,7 +312,7 @@ function runDealerTurn() {
 function flashCards(container, type) {
   container.querySelectorAll('.card').forEach(el => {
     el.classList.remove('flash-win', 'flash-lose');
-    void el.offsetWidth;
+    void el.offsetWidth; // reflow required to restart the CSS animation when re-flashing
     el.classList.add(`flash-${type}`);
     el.addEventListener('animationend', () => el.classList.remove(`flash-${type}`), { once: true });
   });
@@ -415,10 +402,10 @@ function triggerConfetti() {
   for (let i = 0; i < 60; i++) {
     const el = document.createElement('div');
     el.className = 'confetti-particle';
-    el.style.left             = `${Math.random() * 100}vw`;
-    el.style.background       = colors[Math.floor(Math.random() * colors.length)];
+    el.style.left              = `${Math.random() * 100}vw`;
+    el.style.background        = colors[Math.floor(Math.random() * colors.length)];
     el.style.animationDuration = `${1.4 + Math.random() * 0.8}s`;
-    el.style.animationDelay   = `${Math.random() * 0.4}s`;
+    el.style.animationDelay    = `${Math.random() * 0.4}s`;
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove(), { once: true });
   }
